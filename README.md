@@ -5,7 +5,7 @@
 3. Run `make up`.
 
 ## Latest snapshot
-`[s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz](s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz)`
+[s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz](s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz)
 
 # Commands:
 
