@@ -7,7 +7,7 @@
 ## Latest snapshot
 https://constellationlabs-dashboard-beta.s3.amazonaws.com/manta-pacific-25-03-2025.tar.gz 
 
-# Commands:
+## Commands:
 
 ```
 make up
