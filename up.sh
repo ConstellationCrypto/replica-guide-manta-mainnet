@@ -2,7 +2,7 @@
 
 set -eu
 
-export L1_RPC_URL=https://mainnet.infura.io/v3/3dbc90fa127c41fab7f25a942a69908e
+export L1_RPC_URL=[L1_RPC_URL]
 
 L2_URL="http://localhost:8545"
 OP_NODE="$PWD/op-node"
