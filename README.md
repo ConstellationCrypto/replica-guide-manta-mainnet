@@ -1,8 +1,19 @@
 # Manta Pacific Replica Guide
 
-1. Download the datadir snapshot from [s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz](s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz) to ./datadir.
+1. Download the datadir snapshot to ./datadir.
 2. Set `L1_RPC_URL` in `up.sh`
 3. Run `make up`.
+
+## Latest snapshot
+`[s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz](s3://constellationlabs-dashboard-beta/manta-pacific-25-03-2025.tar.gz)`
+
+# Commands:
+
+```
+make up
+make down
+make clean
+```
 
 To query the RPC:
 
@@ -21,11 +32,3 @@ curl $RPC_URL -X POST -H "Content-Type: application/json" --data \
 ```
 
 or `bash progress.sh`
-
-# Commands:
-
-```
-make up
-make down
-make clean
-```
