@@ -5,7 +5,7 @@
 3. Run `make up`.
 
 ## Latest snapshot
-https://constellationlabs-dashboard-beta.s3.us-west-2.amazonaws.com/manta-pacific-22-07-2025.tar.gz
+[https://constellationlabs-dashboard-beta.s3.us-west-2.amazonaws.com/manta-pacific-22-07-2025.tar.gz](https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-2025-Sep-12.tar)
 
 ## Commands:
 
