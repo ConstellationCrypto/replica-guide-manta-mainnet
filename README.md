@@ -32,3 +32,6 @@ curl $RPC_URL -X POST -H "Content-Type: application/json" --data \
 ```
 
 or `bash progress.sh`
+
+## Celestia upgrades
+Please refer to celestia docs for network upgrades: https://docs.celestia.org/how-to-guides/participate#network-upgrades
