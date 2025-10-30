@@ -5,7 +5,9 @@
 3. Run `make up`.
 
 ## Latest snapshot
-https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-2025-Sep-12.tar
+date: 2025-10-28
+
+https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-2025-Oct-28.tar
 
 ## Commands:
 
