@@ -1,0 +1,99 @@
+volumes:
+  reth_data:
+  op_log:
+  reth_logs:
+
+services:
+  l2:
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:develop
+    restart: always
+    ports:
+      - "0.0.0.0:${OP_RETH_METRICS_PORT:-9001}:9001"
+      - "0.0.0.0:${OP_RETH_DISCOVERY_PORT:-30303}:30303/tcp"
+      - "0.0.0.0:${OP_RETH_DISCOVERY_PORT:-30303}:30303/udp"
+      - "0.0.0.0:${OP_RETH_RPC_PORT:-8545}:8545"
+      - "0.0.0.0:${OP_RETH_WS_PORT:-8546}:8546"
+      - "0.0.0.0:${OP_RETH_ENGINE_PORT:-8551}:8551"
+    volumes:
+      - "${PWD}/reth_data:/db"
+      - reth_logs:/root/logs
+      - "${PWD}/jwt-secret.txt:/root/jwt/jwt.hex:ro"
+      - "${PWD}/genesis.json:/chainspec/genesis.json:ro"
+    command: >
+      node
+      --datadir /db
+      --chain /chainspec/genesis.json
+      --rollup.sequencer-http https://manta-pacific.calderachain.xyz/http
+      --metrics 0.0.0.0:9001
+      --log.file.directory /root/logs
+      --authrpc.addr 0.0.0.0
+      --authrpc.port 8551
+      --authrpc.jwtsecret /root/jwt/jwt.hex
+      --http
+      --http.addr 0.0.0.0
+      --http.port 8545
+      --http.api eth,net,web3,debug,txpool
+      --http.corsdomain *
+      --ws
+      --ws.addr 0.0.0.0
+      --ws.port 8546
+      --ws.origins *
+      --ipcdisable
+
+  op-node:
+    depends_on:
+      - l2
+    image: "public.ecr.aws/i6b2w2n6/op-node:1.16.1-celestia-e9ec322-legacy-eth"
+    platform: linux/amd64
+    stop_signal: SIGINT
+    stop_grace_period: 30s
+    restart: always
+    environment:
+      OP_NODE_L1_BEACON_IGNORE: "true"
+      OP_NODE_S3_REGION: us-west-2
+      OP_NODE_S3_BUCKET: caldera-celestia-cache-prod
+      OP_NODE_NAMESPACE_ID: 866269ddf77dbc40ed9d
+      OP_NODE_OVERRIDE_CANYON: "1726783200"
+      OP_NODE_OVERRIDE_DELTA: "1726783200"
+      OP_NODE_OVERRIDE_ECOTONE: "1726783200"
+      OP_NODE_OVERRIDE_PECTRABLOBSCHEDULE: "1765997497"
+      CELESTIA_LEGACY_MODE: "true"
+      CELESTIA_DA_RPC: "${CELESTIA_DA_RPC}"
+      CELESTIA_NAMESPACE_ID: "${CELESTIA_NAMESPACE_ID:-866269ddf77dbc40ed9d}"
+      CELESTIA_AUTH_TOKEN: "${CELESTIA_AUTH_TOKEN}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_SESSION_TOKEN: "${AWS_SESSION_TOKEN}"
+    command: >
+      op-node
+      --l1="${L1_RPC_URL}"
+      --l2=http://l2:8551
+      --l2.jwt-secret=/config/jwt-secret.txt
+      --sequencer.enabled=false
+      --verifier.l1-confs=10
+      --rollup.config=/rollup.json
+      --rpc.addr=0.0.0.0
+      --rpc.port=8545
+      --p2p.disable=true
+      --p2p.no-discovery=false
+      --p2p.listen.ip=0.0.0.0
+      --p2p.listen.tcp=9003
+      --p2p.listen.udp=9003
+      --p2p.static=/dns4/manta-pacific-p2p.calderachain.xyz/tcp/9003/p2p/16Uiu2HAm1yyHgvkvdwQDJs7qNYGgPLNSAmWNtCSqR6t4CTZcmtez
+      --snapshotlog.file=/op_log/snapshot.log
+      --p2p.priv.path=/config/p2p-node-key.txt
+      --metrics.enabled
+      --metrics.addr=0.0.0.0
+      --metrics.port=7300
+      --pprof.enabled
+      --rpc.enable-admin
+      --l2.enginekind=reth
+    ports:
+      - "17545:8545"
+      - "19003:9003"
+      - "17300:7300"
+    volumes:
+      - "${PWD}/p2p-node-key.txt:/config/p2p-node-key.txt"
+      - "${PWD}/jwt-secret.txt:/config/jwt-secret.txt"
+      - "${PWD}/rollup.json:/rollup.json"
+      - op_log:/op_log
