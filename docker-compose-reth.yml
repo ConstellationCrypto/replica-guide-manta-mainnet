@@ -74,7 +74,7 @@ services:
       --rollup.config=/rollup.json
       --rpc.addr=0.0.0.0
       --rpc.port=8545
-      --p2p.disable=true
+      --p2p.disable=false
       --p2p.no-discovery=false
       --p2p.listen.ip=0.0.0.0
       --p2p.listen.tcp=9003
