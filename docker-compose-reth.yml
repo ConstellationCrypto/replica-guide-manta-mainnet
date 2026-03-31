@@ -5,7 +5,7 @@ volumes:
 
 services:
   l2:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:develop
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v1.11.3
     restart: always
     ports:
       - "0.0.0.0:${OP_RETH_METRICS_PORT:-9001}:9001"
@@ -21,9 +21,12 @@ services:
       - "${PWD}/genesis.json:/chainspec/genesis.json:ro"
     command: >
       node
+      --engine.disable-parallel-sparse-trie
+      --rollup.disable-tx-pool-gossip
+      --rollup.sequencer="https://manta-pacific.calderachain.xyz/http"
+      --rollup.historicalrpc="https://manta-pacific.calderachain.xyz/http"
       --datadir /db
       --chain /chainspec/genesis.json
-      --rollup.sequencer-http https://manta-pacific.calderachain.xyz/http
       --metrics 0.0.0.0:9001
       --log.file.directory /root/logs
       --authrpc.addr 0.0.0.0
@@ -39,7 +42,7 @@ services:
       --ws.port 8546
       --ws.origins *
       --ipcdisable
-
+#      --rollup.sequencer-http https://manta-pacific.calderachain.xyz/http
   op-node:
     depends_on:
       - l2
