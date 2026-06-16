@@ -25,7 +25,7 @@ namespace = "00000000000000000000000000000000000000866269ddf77dbc40ed9d"
 blobid_compact = true
 
 # Bridge node (reads only)
-bridge_addr = "https://REPLACE.celestia-mainnet.quiknode.pro/REPLACE"
+bridge_addr = "https://REPLACE.celestia-mainnet.quiknode.pro/REPLACE/"
 bridge_auth_token = "REPLACE"
 bridge_tls_enabled = true
 
@@ -66,7 +66,8 @@ port = 6060
 [fallback]
 enabled = true
 provider = "s3"
-# Note: server may still attempt best-effort S3 write-through on reads; harmless on a public read-only bucket.
+# Read-only replica: only read from S3 when Celestia fails (no write-through).
+mode = "read_fallback"
 
 [fallback.s3]
 bucket = "caldera-celestia-cache-prod"

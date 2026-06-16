@@ -61,7 +61,7 @@ and delete `reth_data/proofs-db`.
 
 ### Configure op-alt-da
 
-Edit [op-alt-da-config.toml](op-alt-da-config.toml): set Celestia bridge gRPC URL and auth token for read-only access.
+Edit [op-alt-da-config.toml](op-alt-da-config.toml): set Celestia bridge gRPC URL and auth token for read-only access. Fallback S3 is configured with `mode = "read_fallback"` so the replica only reads from the public cache and does not attempt S3 writes.
 
 ### Run
 
