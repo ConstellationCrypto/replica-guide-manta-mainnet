@@ -21,7 +21,7 @@ Celestia namespace: `866269ddf77dbc40ed9d` (29-byte v0 form in config: `00000000
 
 Download and extract into `./reth_data` before the first start. This snapshot includes proofs data under `proofs-db/`:
 
-https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-reth-2026-Jun-15.tar
+https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-reth-2026-Jun-24.tar
 
 If you do not need proofs, remove these flags from `docker-compose.yml` (`op-reth` service):
 
