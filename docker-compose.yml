@@ -42,6 +42,7 @@ services:
       --proofs-history.window=5184000
       --rollup.disable-tx-pool-gossip
       --rollup.sequencer=https://manta-pacific.calderachain.xyz/http
+      --rollup.historicalrpc=https://manta-pacific.calderachain.xyz/http
       --metrics=0.0.0.0:9001
       --authrpc.addr=0.0.0.0
       --authrpc.port=8551
@@ -51,7 +52,6 @@ services:
       --http.port=8545
       --http.api=web3,debug,eth,txpool,net
       --http.corsdomain=*
-      --discovery.port=30303
       --ws
       --ws.addr=0.0.0.0
       --ws.port=8546
@@ -59,6 +59,8 @@ services:
       --ipcdisable
       --engine.disable-state-cache
       --chain=/config/genesisReth.json
+      --disable-discovery
+      --trusted-peers=enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@184.33.173.166:30303,enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@34.213.128.60:30303,enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@100.20.254.63:30303
 
   op-alt-da:
     image: public.ecr.aws/i6b2w2n6/op-alt-da:v0.15.0-804b2d7
@@ -120,6 +122,7 @@ services:
       --p2p.static=/dns4/manta-pacific-p2p.calderachain.xyz/tcp/9003/p2p/16Uiu2HAm1yyHgvkvdwQDJs7qNYGgPLNSAmWNtCSqR6t4CTZcmtez
       --snapshotlog.file=/op_log/snapshot.log
       --p2p.priv.path=/config/p2p-node-key.txt
+      --syncmode=execution-layer
       --metrics.enabled
       --metrics.addr=0.0.0.0
       --metrics.port=7300

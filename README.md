@@ -11,9 +11,11 @@ Manta Pacific replica using op-reth, op-node (AltDA), and op-alt-da (Celestia).
 
 ## Stack
 
-- **op-reth** `public.ecr.aws/i6b2w2n6/op-reth:v2.2.3`
+- **op-reth** `public.ecr.aws/i6b2w2n6/op-reth:v2.3.1`
 - **op-node** `public.ecr.aws/i6b2w2n6/op-node:1.16.1-celestia-e9ec322-altda` ([AltDA mode](https://docs.optimism.io/builders/chain-operators/features/alt-da-mode))
-- **op-alt-da** `public.ecr.aws/i6b2w2n6/op-alt-da:v0.15.0-4d9d54d` ([celestiaorg/op-alt-da](https://github.com/celestiaorg/op-alt-da))
+- **op-alt-da** `public.ecr.aws/i6b2w2n6/op-alt-da:v0.15.0-804b2d7` ([celestiaorg/op-alt-da](https://github.com/celestiaorg/op-alt-da))
+
+op-node runs `--syncmode=execution-layer`. op-reth syncs blocks over EL P2P from the listed trusted peers (`--disable-discovery` plus `--trusted-peers`), and uses the public sequencer RPC as `--rollup.historicalrpc`. op-node still gossips unsafe payloads over CL P2P to `manta-pacific-p2p.calderachain.xyz`.
 
 Celestia namespace: `866269ddf77dbc40ed9d` (29-byte v0 form in config: `00000000000000000000000000000000000000866269ddf77dbc40ed9d`).
 
