@@ -5,19 +5,16 @@
 #   # Optional: L1_BEACON_URL if not using OP_NODE_L1_BEACON_IGNORE
 #
 # Datadir (recommended): restore from the snapshot before first start:
-#   https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-reth-2026-Jun-15.tar
+#   https://caldera-chain-data-snapshots.s3.us-west-2.amazonaws.com/exported-snapshots/bedrock-manta-pacific/bedrock-manta-pacific-reth-2026-Jun-24.tar
 #
 # Start:
 #   docker compose up -d
 #
 # See README.md for op-alt-da Celestia configuration.
 
-volumes:
-  op_log:
-
 services:
   op-reth:
-    image: public.ecr.aws/i6b2w2n6/op-reth:v2.3.1
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v2.6.1
     platform: linux/amd64
     restart: always
     ports:
@@ -83,7 +80,7 @@ services:
     depends_on:
       - op-reth
       - op-alt-da
-    image: public.ecr.aws/i6b2w2n6/op-node:1.16.1-celestia-e9ec322-altda
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.19.11
     platform: linux/amd64
     stop_signal: SIGINT
     stop_grace_period: 30s
@@ -120,7 +117,6 @@ services:
       --p2p.listen.tcp=9003
       --p2p.listen.udp=9003
       --p2p.static=/dns4/manta-pacific-p2p.calderachain.xyz/tcp/9003/p2p/16Uiu2HAm1yyHgvkvdwQDJs7qNYGgPLNSAmWNtCSqR6t4CTZcmtez
-      --snapshotlog.file=/op_log/snapshot.log
       --p2p.priv.path=/config/p2p-node-key.txt
       --syncmode=execution-layer
       --metrics.enabled
@@ -136,4 +132,3 @@ services:
       - "${PWD}/p2p-node-key.txt:/config/p2p-node-key.txt"
       - "${PWD}/jwt-secret.txt:/config/jwt-secret.txt"
       - "${PWD}/rollup.json:/rollup.json:ro"
-      - op_log:/op_log
