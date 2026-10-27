@@ -11,13 +11,34 @@ Manta Pacific replica using op-reth, op-node (AltDA), and op-alt-da (Celestia).
 
 ## Stack
 
-- **op-reth** `public.ecr.aws/i6b2w2n6/op-reth:v2.3.1`
-- **op-node** `public.ecr.aws/i6b2w2n6/op-node:1.16.1-celestia-e9ec322-altda` ([AltDA mode](https://docs.optimism.io/builders/chain-operators/features/alt-da-mode))
+- **op-reth** `us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v2.6.1`
+- **op-node** `us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.19.11` ([AltDA mode](https://docs.optimism.io/builders/chain-operators/features/alt-da-mode))
 - **op-alt-da** `public.ecr.aws/i6b2w2n6/op-alt-da:v0.15.0-804b2d7` ([celestiaorg/op-alt-da](https://github.com/celestiaorg/op-alt-da))
+
+op-reth and op-node are the upstream OP Labs images; op-node talks to op-alt-da via the standard AltDA `GenericCommitment` interface (no Celestia-specific op-node fork needed).
 
 op-node runs `--syncmode=execution-layer`. op-reth syncs blocks over EL P2P from the listed trusted peers (`--disable-discovery` plus `--trusted-peers`), and uses the public sequencer RPC as `--rollup.historicalrpc`. op-node still gossips unsafe payloads over CL P2P to `manta-pacific-p2p.calderachain.xyz`.
 
 Celestia namespace: `866269ddf77dbc40ed9d` (29-byte v0 form in config: `00000000000000000000000000000000000000866269ddf77dbc40ed9d`).
+
+## EL P2P
+
+op-reth syncs over EL P2P (devp2p, port `30303` tcp/udp) from Caldera's Manta Pacific replica peers. Discovery is off; op-reth dials these trusted peers directly:
+
+```
+enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@184.33.173.166:30303
+enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@34.213.128.60:30303
+enode://ca965bbc0cfce267ed50a8b03dd394a448f39ff234810f1256044f6825a5b5b4b85ef258914bd6671217e8efcae54ed38d73a52d439f860989172c625d16d492@100.20.254.63:30303
+```
+
+Outbound TCP to these IPs on `30303` must be allowed. Check that op-reth has peers:
+
+```bash
+curl http://localhost:8545 -X POST -H "Content-Type: application/json" --data \
+    '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":1}'
+```
+
+A result of `"0x0"` means op-reth cannot reach the peers, so EL sync will not progress.
 
 ## Datadir snapshot
 
