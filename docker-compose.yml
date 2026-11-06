@@ -14,7 +14,7 @@
 
 services:
   op-reth:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v2.6.1
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-reth:v2.8.1
     platform: linux/amd64
     restart: always
     ports:
@@ -82,7 +82,7 @@ services:
     depends_on:
       - op-reth
       - op-alt-da
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.19.11
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.20.1
     platform: linux/amd64
     stop_signal: SIGINT
     stop_grace_period: 30s
